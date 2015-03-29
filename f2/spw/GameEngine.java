@@ -62,7 +62,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
-				score += 1000;
+				score += 1;
 			}
 		}
 		
@@ -93,6 +93,12 @@ public class GameEngine implements KeyListener, GameReporter{
 			break;
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
+			break;
+		case KeyEvent.VK_UP:
+			v.moveUp(1);
+			break;
+		case KeyEvent.VK_DOWN:
+			v.moveUp(-1);
 			break;
 		}
 	}
