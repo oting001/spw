@@ -19,6 +19,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	private Timer timer;
 	
+	private long exp = 0;
 	private long score = 0;
 	private double difficulty = 0.1;
 	
@@ -95,10 +96,10 @@ public class GameEngine implements KeyListener, GameReporter{
 			difficulty += 0.1;
 			break;
 		case KeyEvent.VK_UP:
-			v.moveUp(1);
+			v.moveUp(-1);
 			break;
 		case KeyEvent.VK_DOWN:
-			v.moveUp(-1);
+			v.moveUp(1);
 			break;
 		}
 	}
