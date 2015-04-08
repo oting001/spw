@@ -14,8 +14,13 @@ import javax.swing.Timer;
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
+<<<<<<< HEAD
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+=======
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<EnemyE> enemies2 = new ArrayList<EnemyE>();
+>>>>>>> 8aa89e17af76ce5bd1816dc9264a2f043c9fbeef
 	private SpaceShip v;	
 	
 	private Timer timer;
@@ -50,6 +55,9 @@ public class GameEngine implements KeyListener, GameReporter{
 		Enemy e = new Enemy((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
 		enemies.add(e);
+		Enemy e2 = new EnemyE((int)(Math.random()*390), 30);
+		gp.sprites.add(e2);
+		enemies2.add(e2);
 	}
 	
 	private void generateBullet(){
