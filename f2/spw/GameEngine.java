@@ -14,13 +14,12 @@ import javax.swing.Timer;
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
-<<<<<<< HEAD
+
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-=======
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
 	private ArrayList<EnemyE> enemies2 = new ArrayList<EnemyE>();
->>>>>>> 8aa89e17af76ce5bd1816dc9264a2f043c9fbeef
+
 	private SpaceShip v;	
 	
 	private Timer timer;
@@ -41,6 +40,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			public void actionPerformed(ActionEvent arg0) {
 				generateBullet();
 				process();
+				
 			}
 		});
 		timer.setRepeats(true);
@@ -55,7 +55,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		Enemy e = new Enemy((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
 		enemies.add(e);
-		Enemy e2 = new EnemyE((int)(Math.random()*390), 30);
+		EnemyE e2 = new EnemyE((int)(Math.random()*390), 30);
 		gp.sprites.add(e2);
 		enemies2.add(e2);
 	}
@@ -73,8 +73,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		Iterator<Enemy> e_iter = enemies.iterator();
 		while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
-			e.proceed();
-			
+			e.proceed();		
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
@@ -104,10 +103,36 @@ public class GameEngine implements KeyListener, GameReporter{
 				return;
 			}
 		}
+		processBullet();
+	}
+	
+	private void processBullet(){
+		Rectangle2D.Double vr = v.getRectangle();
+		Rectangle2D.Double er;
+		Rectangle2D.Double br;
+		
+		for(Enemy e : enemies){
+			er = e.getRectangle();
+			for(Bullet b : bullets){
+				br = b.getRectangle();
+				if(er.intersects(br)){
+					expUP(e);
+					e.isDie();
+				}				
+			}	
+		}	
 	}
 	
 	public void die(){
 		timer.stop();
+	}
+	
+	public void expUP(Enemy e){
+		exp += e.getExpEnemy();
+		
+	}
+	public long getEXP(){
+		return exp;
 	}
 	
 	void controlVehicle(KeyEvent e) {
