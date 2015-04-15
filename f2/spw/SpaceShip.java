@@ -2,11 +2,14 @@ package f2.spw;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import static java.lang.Math.pow;
 
 public class SpaceShip extends Sprite{
 
 	int step = 8;
-	
+	private long exp = 0;
+	private int level = 1;
+	private int MAX_LEVEL = 10;
 	public SpaceShip(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		
@@ -33,5 +36,27 @@ public class SpaceShip extends Sprite{
 		if(y > 600 - height)
 			y = 600 - height;
 	}
+	public void expUP(int e){
+		exp += e;
+		if(exp > (5*level) + pow(5 , level)){
+			levelUp();
+		}
+	}
+	public long getEXP(){
+		return exp;
+	}
 	
+	public void levelUp(){
+		if(level < MAX_LEVEL){
+			level++;
+		}
+	}
+	public void levelDown(){
+		if(level > 1){
+			level--;
+		}				
+	}
+	public int getLevel(){
+		return level;
+	}
 }

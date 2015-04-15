@@ -10,8 +10,8 @@ public class Bullet extends Sprite{
 	private int step = 14;
 	private boolean alive= true;
 	
-	public Bullet(int x, int y) {
-		super(x, y, 4, 6);
+	public Bullet(int x, int y ,int width ,int height) {
+		super(x, y, width, height);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	private Timer timer;
 	
-	private long exp = 0;
+	
 	private long score = 0;
 	private double difficulty = 0.1;
 	
@@ -61,7 +61,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
 	
 	private void generateBullet(){
-		Bullet bs = new Bullet( this.v.x + (this.v.width/2) - 1,this.v.y);
+		Bullet bs = new Bullet( v.x + (v.width/2) - 1,v.y, 1+v.getLevel(),6+(int)(v.getLevel()/2));
 	    gp.sprites.add(bs);
 		bullets.add(bs);
 	}
@@ -80,6 +80,18 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}
 		}
+		
+		Iterator<EnemyE> e_iter2 = enemies2.iterator();
+		while(e_iter2.hasNext()){
+			EnemyE e = e_iter2.next();
+			e.proceed();		
+			if(!e.isAlive()){
+				e_iter2.remove();
+				gp.sprites.remove(e);
+				score += 100;
+			}
+		}
+		
 		
 		Iterator<Bullet> bullet_iter = bullets.iterator();
 		while(bullet_iter.hasNext()){
@@ -116,7 +128,17 @@ public class GameEngine implements KeyListener, GameReporter{
 			for(Bullet b : bullets){
 				br = b.getRectangle();
 				if(er.intersects(br)){
-					expUP(e);
+					v.expUP(e.getExp());
+					e.isDie();
+				}				
+			}	
+		}
+		for(EnemyE e : enemies2){
+			er = e.getRectangle();
+			for(Bullet b : bullets){
+				br = b.getRectangle();
+				if(er.intersects(br)){
+					v.expUP(e.getExp());
 					e.isDie();
 				}				
 			}	
@@ -127,13 +149,7 @@ public class GameEngine implements KeyListener, GameReporter{
 		timer.stop();
 	}
 	
-	public void expUP(Enemy e){
-		exp += e.getExpEnemy();
-		
-	}
-	public long getEXP(){
-		return exp;
-	}
+	
 	
 	void controlVehicle(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -157,6 +173,9 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	public long getScore(){
 		return score;
+	}
+	public int getLevel(){
+		return v.getLevel();
 	}
 	
 	@Override
