@@ -9,7 +9,7 @@ public class EnemyE extends Sprite{
 	public static final int Y_TO_DIE = 600;
 	
 	private int exp = 1000;
-	
+	private int healt = 2;
 	private int step = 12;
 	private boolean alive = true;
 	
@@ -47,5 +47,19 @@ public class EnemyE extends Sprite{
 	
 	public int getExp(){
 		return exp;
+	}
+	public void takeDmg(){
+		if(healt <= 1){
+			isDie();
+		}
+		else{
+			healt--;
+		}
+	}
+	public void takeDmg(int dmg){
+		healt -= dmg;
+		if(healt <= 0){
+			isDie();
+		}
 	}
 }

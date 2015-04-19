@@ -115,6 +115,13 @@ public class GameEngine implements KeyListener, GameReporter{
 				return;
 			}
 		}
+		for(EnemyE e : enemies2){
+			er = e.getRectangle();
+			if(er.intersects(vr)){
+				die();
+				return;
+			}
+		}
 		processBullet();
 	}
 	
@@ -138,8 +145,10 @@ public class GameEngine implements KeyListener, GameReporter{
 			for(Bullet b : bullets){
 				br = b.getRectangle();
 				if(er.intersects(br)){
-					v.expUP(e.getExp());
-					e.isDie();
+					e.takeDmg();
+					if(!e.isAlive()){
+						v.expUP(e.getExp());
+					}
 				}				
 			}	
 		}	
