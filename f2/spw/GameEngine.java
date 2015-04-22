@@ -17,8 +17,8 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-
 	private ArrayList<EnemyE> enemies2 = new ArrayList<EnemyE>();
+	private ArrayList<Boss> boss = new ArrayList<Boss>();
 
 	private SpaceShip v;	
 	
@@ -27,6 +27,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	
 	private long score = 0;
 	private double difficulty = 0.1;
+	private int level = 1;
 	
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -60,13 +61,25 @@ public class GameEngine implements KeyListener, GameReporter{
 		enemies2.add(e2);
 	}
 	
+	private void generateBoss(){
+		Boss b = new Boss(10);
+		gp.sprites.add(b);
+		boss.add(b);
+	}
+	
 	private void generateBullet(){
 		Bullet bs = new Bullet( v.x + (v.width/2) - 1,v.y, 1+v.getLevel(),6+(int)(v.getLevel()/2));
 	    gp.sprites.add(bs);
 		bullets.add(bs);
 	}
 	private void process(){
-		if(Math.random() < difficulty){
+		if(score/10000 > level){
+			generateBoss();
+			Rectangle2D.Double br;
+			level++;
+			difficulty += 0.1;
+		}
+		else if(Math.random() < difficulty && boss.isEmpty()){
 			generateEnemy();
 		}
 		
@@ -151,7 +164,23 @@ public class GameEngine implements KeyListener, GameReporter{
 					}
 				}				
 			}	
-		}	
+		}
+		if(!boss.isEmpty()){
+			for(Bullet b:bullets){
+				br = b.getRectangle();
+				er = boss.get(0).getRectangle();
+				if(er.intersects(br)){
+					(boss.get(0)).takeDmg();
+					if(!(boss.get(0)).isAlive()){
+						v.expUP((boss.get(0)).getExp());
+						gp.sprites.remove((boss.get(0)));
+						boss.remove((boss.get(0)));
+						break;
+					}
+				}
+			}
+		}
+		
 	}
 	
 	public void die(){

@@ -18,8 +18,7 @@ public class SpaceShip extends Sprite{
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(x, y, width, height);
-		
+		g.fillRect(x, y, width, height);	
 	}
 
 	public void move(int direction){
@@ -50,6 +49,7 @@ public class SpaceShip extends Sprite{
 		if(level < MAX_LEVEL){
 			level++;
 		}
+		
 	}
 	public void levelDown(){
 		if(level > 1){
