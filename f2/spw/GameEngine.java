@@ -19,7 +19,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private ArrayList<EnemyE> enemies2 = new ArrayList<EnemyE>();
 	private ArrayList<Boss> boss = new ArrayList<Boss>();
-
+	private ArrayList<BulletBoss> bulletBoss = new ArrayList<BulletBoss>();
 	private SpaceShip v;	
 	
 	private Timer timer;
@@ -65,15 +65,24 @@ public class GameEngine implements KeyListener, GameReporter{
 		Boss b = new Boss(10);
 		gp.sprites.add(b);
 		boss.add(b);
+		
 	}
 	
+	private void generateBulletBoss(int x ,int y){
+		BulletBoss bb = new BulletBoss(x,y);
+		gp.sprites.add(bb);
+		bulletBoss.add(bb);
+	}
+	
+	
+	
 	private void generateBullet(){
-		Bullet bs = new Bullet( v.x + (v.width/2) - 1,v.y, 1+v.getLevel(),6+(int)(v.getLevel()/2));
-	    gp.sprites.add(bs);
-		bullets.add(bs);
+		Bullet bv = new Bullet( v.x + (v.width/2) - 1,v.y, 1+v.getLevel(),6+(int)(v.getLevel()/2));
+	    gp.sprites.add(bv);
+		bullets.add(bv);
 	}
 	private void process(){
-		if(score/10000 > level){
+		if(score/1000 > level && boss.isEmpty()){
 			generateBoss();
 			Rectangle2D.Double br;
 			level++;
@@ -102,6 +111,31 @@ public class GameEngine implements KeyListener, GameReporter{
 				e_iter2.remove();
 				gp.sprites.remove(e);
 				score += 100;
+			}
+		}
+		
+		Iterator<Boss> boss_iter = boss.iterator();
+		while(boss_iter.hasNext()){
+			Boss b = boss_iter.next();
+			b.proceed();
+			if(Math.random() > 0.8){
+				generateBulletBoss(b.x + (b.width/2) - 1,b.y);
+			}
+			
+			if(!b.isAlive()){
+				boss_iter.remove();
+				gp.sprites.remove(b);
+				score += 1000;
+			}
+		}
+		
+		Iterator<BulletBoss> bulletBoss_iter = bulletBoss.iterator();
+		while(bulletBoss_iter.hasNext()){
+			BulletBoss b = bulletBoss_iter.next();
+			b.proceed();
+			if(!b.isAlive()){
+				bulletBoss_iter.remove();
+				gp.sprites.remove(b);
 			}
 		}
 		
