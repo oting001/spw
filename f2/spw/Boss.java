@@ -9,8 +9,8 @@ public class Boss extends Sprite{
 	public static final int Y_TO_DIE = 600;
 	
 	private int exp = 1000;
-	private int healt = 1;
-	private int step = 5;
+	private int healt = 10;
+	private int step = 1;
 	private boolean alive = true;
 	
 	public Boss(){
@@ -38,17 +38,19 @@ public class Boss extends Sprite{
 
 	public void proceed(){
 		
-		if(x > 380){
+		if(x > 360){
 			x -= step;
 		}
-		else if(x < 20){
+		else if(x < 40){
 			x += step;
 		}
 		else if(Math.random() < 0.5){
-			x += step;
+			for(int i = (int)(Math.random()*30) ;i > 0 ;i--)
+				x += step;
 		}
 		else{
-			x -= step;
+			for(int i = (int)(Math.random()*30) ;i > 0 ;i--)
+				x -= step;
 		}
 	}
 	

@@ -169,6 +169,14 @@ public class GameEngine implements KeyListener, GameReporter{
 				return;
 			}
 		}
+		
+		for(BulletBoss b : bulletBoss){
+			er = b.getRectangle();
+			if(er.intersects(vr)){
+				die();
+				return;
+			}
+		}
 		processBullet();
 	}
 	
